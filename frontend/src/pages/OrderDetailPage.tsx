@@ -61,21 +61,21 @@ export default function OrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="center-screen">
         <Spinner />
       </div>
     );
   }
   if (!order) {
-    return <div className="mx-auto max-w-3xl px-4 py-20 text-center text-ink-700">Order not found.</div>;
+    return <div className="page-message">Order not found.</div>;
   }
 
   const cancelled = order.status === "CANCELLED";
   const currentStep = TIMELINE.indexOf(order.status);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <Link to="/orders" className="text-sm text-ink-700/70 hover:text-terracotta-600">
+    <div className="page-narrow">
+      <Link to="/orders" className="muted hover:text-terracotta-600">
         ← Back to orders
       </Link>
 
@@ -88,8 +88,8 @@ export default function OrderDetailPage() {
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl text-ink-900">Order #{order.orderNumber}</h1>
-          <p className="text-sm text-ink-700/70">Placed {formatDate(order.placedAt ?? order.createdAt)}</p>
+          <h1 className="title-section">Order #{order.orderNumber}</h1>
+          <p className="muted">Placed {formatDate(order.placedAt ?? order.createdAt)}</p>
         </div>
         <StatusBadge status={order.status} />
       </div>
@@ -139,7 +139,7 @@ export default function OrderDetailPage() {
               <img src={i.imageUrl || "/products/marketbag-1.svg"} alt="" className="h-16 w-16 rounded-xl object-cover" />
               <div className="flex-1">
                 <p className="font-medium text-ink-900">{i.productTitle}</p>
-                <p className="text-sm text-ink-700/70">
+                <p className="muted">
                   {i.variantName} · Qty {i.quantity}
                 </p>
               </div>
@@ -163,9 +163,9 @@ export default function OrderDetailPage() {
           {error && <p className="text-sm text-red-600">{error}</p>}
 
           {showReturn && (
-            <form onSubmit={requestReturn} className="card p-5">
-              <h3 className="font-display text-lg text-ink-900">Request a return</h3>
-              <p className="text-sm text-ink-700/70">Eligible within 30 days of delivery.</p>
+            <form onSubmit={requestReturn} className="panel">
+              <h3 className="title-card">Request a return</h3>
+              <p className="muted">Eligible within 30 days of delivery.</p>
               <textarea
                 className="input mt-3 min-h-[80px]"
                 placeholder="Reason for return"
@@ -187,8 +187,8 @@ export default function OrderDetailPage() {
 
         {/* Summary + shipping */}
         <div className="space-y-4">
-          <div className="card p-5">
-            <h3 className="font-display text-lg text-ink-900">Payment</h3>
+          <div className="panel">
+            <h3 className="title-card">Payment</h3>
             <dl className="mt-3 space-y-1.5 text-sm text-ink-700">
               <div className="flex justify-between">
                 <dt>Subtotal</dt>
@@ -204,8 +204,8 @@ export default function OrderDetailPage() {
               </div>
             </dl>
           </div>
-          <div className="card p-5">
-            <h3 className="font-display text-lg text-ink-900">Shipping to</h3>
+          <div className="panel">
+            <h3 className="title-card">Shipping to</h3>
             <address className="mt-2 text-sm not-italic text-ink-700">
               {order.shipName}
               <br />

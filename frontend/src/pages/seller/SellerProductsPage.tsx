@@ -26,21 +26,21 @@ export default function SellerProductsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="page">
       <SellerNav />
       <div className="flex items-center justify-between">
-        <h2 className="font-display text-2xl text-ink-900">Products</h2>
+        <h2 className="title-sub">Products</h2>
         <Link to="/seller/products/new" className="btn-primary">
           + Add product
         </Link>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-20">
+        <div className="loader">
           <Spinner />
         </div>
       ) : products.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-cream-200 py-20 text-center text-ink-700/70">
+        <div className="mt-8 empty-state">
           No products yet. Add your first creation!
         </div>
       ) : (
@@ -65,7 +65,7 @@ export default function SellerProductsPage() {
                   </td>
                   <td className="px-4 py-3 text-ink-700">{formatINR(p.basePrice)}</td>
                   <td className="px-4 py-3">
-                    <span className="rounded-full bg-cream-200 px-2.5 py-1 text-xs text-ink-700">
+                    <span className="pill">
                       {statusLabel(p.status)}
                     </span>
                   </td>

@@ -11,7 +11,7 @@ export default function CartPage() {
 
   if (loading && !cart) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="center-screen">
         <Spinner />
       </div>
     );
@@ -20,7 +20,7 @@ export default function CartPage() {
   if (!cart || cart.items.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
-        <h1 className="font-display text-4xl text-ink-900">Your cart is empty</h1>
+        <h1 className="title-page">Your cart is empty</h1>
         <p className="mt-3 text-ink-700/80">Let's find something handmade you'll love.</p>
         <Link to="/products" className="btn-primary mt-6">
           Browse the collection
@@ -33,8 +33,8 @@ export default function CartPage() {
   const total = cart.subtotal + shipping;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-4xl text-ink-900">Your Cart</h1>
+    <div className="page">
+      <h1 className="title-page">Your Cart</h1>
       <div className="mt-8 grid gap-8 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
           {cart.items.map((item) => (
@@ -47,10 +47,10 @@ export default function CartPage() {
               <div className="flex flex-1 flex-col">
                 <div className="flex justify-between gap-2">
                   <div>
-                    <Link to={`/products/${item.productId}`} className="font-display text-lg text-ink-900 hover:text-terracotta-600">
+                    <Link to={`/products/${item.productId}`} className="title-card hover:text-terracotta-600">
                       {item.productTitle}
                     </Link>
-                    <p className="text-sm text-ink-700/70">{item.variantName}</p>
+                    <p className="muted">{item.variantName}</p>
                   </div>
                   <button
                     className="text-sm text-ink-700/60 hover:text-red-600"
@@ -86,7 +86,7 @@ export default function CartPage() {
         {/* Summary */}
         <div className="lg:col-span-1">
           <div className="card sticky top-24 p-6">
-            <h2 className="font-display text-xl text-ink-900">Order summary</h2>
+            <h2 className="title-panel">Order summary</h2>
             <dl className="mt-4 space-y-2 text-sm">
               <Row label="Subtotal" value={formatINR(cart.subtotal)} />
               <Row label="Shipping" value={shipping === 0 ? "Free" : formatINR(shipping)} />
@@ -97,8 +97,8 @@ export default function CartPage() {
               )}
             </dl>
             <div className="mt-4 flex justify-between border-t border-cream-200 pt-4">
-              <span className="font-display text-lg text-ink-900">Total</span>
-              <span className="font-display text-lg text-terracotta-600">{formatINR(total)}</span>
+              <span className="title-card">Total</span>
+              <span className="price-total">{formatINR(total)}</span>
             </div>
             <Link to="/checkout" className="btn-primary mt-6 w-full">
               Proceed to checkout

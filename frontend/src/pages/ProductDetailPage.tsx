@@ -58,21 +58,21 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="center-screen">
         <Spinner />
       </div>
     );
   }
   if (!product) {
-    return <div className="mx-auto max-w-3xl px-4 py-20 text-center text-ink-700">Product not found.</div>;
+    return <div className="page-message">Product not found.</div>;
   }
 
   const images = product.imageUrls.length ? product.imageUrls : ["/products/marketbag-1.svg"];
   const canReview = isAuthenticated && user?.role === "CUSTOMER";
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-      <nav className="mb-6 text-sm text-ink-700/70">
+    <div className="page-wide">
+      <nav className="mb-6 muted">
         <Link to="/products" className="hover:text-terracotta-600">
           Shop
         </Link>{" "}
@@ -105,13 +105,13 @@ export default function ProductDetailPage() {
         {/* Info */}
         <div>
           {product.sellerShopName && (
-            <p className="text-sm uppercase tracking-wide text-sage-600">{product.sellerShopName}</p>
+            <p className="eyebrow text-sm">{product.sellerShopName}</p>
           )}
-          <h1 className="mt-1 font-display text-4xl text-ink-900">{product.title}</h1>
+          <h1 className="mt-1 title-page">{product.title}</h1>
           <div className="mt-3">
             <StarRating value={product.ratingAvg} count={product.ratingCount} size={18} />
           </div>
-          <p className="mt-4 font-display text-3xl text-terracotta-600">
+          <p className="mt-4 price-lg">
             {formatINR(variant?.price ?? product.basePrice)}
           </p>
 
@@ -143,13 +143,13 @@ export default function ProductDetailPage() {
 
           {/* Qty + add */}
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <div className="flex items-center rounded-full border border-cream-200 bg-white">
-              <button className="px-4 py-2 text-lg text-ink-700" onClick={() => setQty((q) => Math.max(1, q - 1))}>
+            <div className="qty-control">
+              <button className="qty-btn" onClick={() => setQty((q) => Math.max(1, q - 1))}>
                 −
               </button>
               <span className="w-10 text-center text-sm font-medium">{qty}</span>
               <button
-                className="px-4 py-2 text-lg text-ink-700"
+                className="qty-btn"
                 onClick={() => setQty((q) => Math.min(variant?.stock ?? 1, q + 1))}
               >
                 +
@@ -184,14 +184,14 @@ export default function ProductDetailPage() {
 
       {/* Reviews */}
       <section className="mt-16 border-t border-cream-200 pt-10">
-        <h2 className="font-display text-3xl text-ink-900">Reviews</h2>
+        <h2 className="title-section">Reviews</h2>
         {canReview && <ReviewForm productId={product.id} onAdded={(r) => setReviews((prev) => [r, ...prev])} />}
         <div className="mt-8 space-y-5">
           {reviews.length === 0 ? (
             <p className="text-ink-700/70">No reviews yet — be the first to share your thoughts.</p>
           ) : (
             reviews.map((r) => (
-              <div key={r.id} className="card p-5">
+              <div key={r.id} className="panel">
                 <div className="flex items-center justify-between">
                   <span className="font-medium text-ink-900">{r.authorName}</span>
                   <span className="text-xs text-ink-700/60">{formatDate(r.createdAt)}</span>
@@ -232,7 +232,7 @@ function ReviewForm({ productId, onAdded }: { productId: string; onAdded: (r: Re
 
   return (
     <form onSubmit={submit} className="card mt-6 p-6">
-      <h3 className="font-display text-xl text-ink-900">Write a review</h3>
+      <h3 className="title-panel">Write a review</h3>
       <div className="mt-3">
         <label className="label">Your rating</label>
         <div className="flex gap-1">

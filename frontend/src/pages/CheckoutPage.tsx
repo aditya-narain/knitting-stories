@@ -85,7 +85,7 @@ export default function CheckoutPage() {
   if (!cart || cart.items.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-24 text-center">
-        <h1 className="font-display text-3xl text-ink-900">Your cart is empty</h1>
+        <h1 className="title-section">Your cart is empty</h1>
       </div>
     );
   }
@@ -93,11 +93,11 @@ export default function CheckoutPage() {
   const shipping = cart.subtotal >= 999 ? 0 : 49;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-4xl text-ink-900">Checkout</h1>
+    <div className="page-mid">
+      <h1 className="title-page">Checkout</h1>
       <form onSubmit={submit} className="mt-8 grid gap-8 lg:grid-cols-3">
         <div className="card p-6 lg:col-span-2">
-          <h2 className="font-display text-xl text-ink-900">Shipping details</h2>
+          <h2 className="title-panel">Shipping details</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <Field label="Full name" value={form.shipName} onChange={(v) => set("shipName", v)} required />
             <Field label="Phone" value={form.shipPhone} onChange={(v) => set("shipPhone", v)} required />
@@ -111,12 +111,12 @@ export default function CheckoutPage() {
             <Field label="State" value={form.shipState} onChange={(v) => set("shipState", v)} required />
             <Field label="PIN code" value={form.shipPostalCode} onChange={(v) => set("shipPostalCode", v)} required />
           </div>
-          {error && <p className="mt-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
+          {error && <p className="mt-4 alert-error">{error}</p>}
         </div>
 
         <div className="lg:col-span-1">
           <div className="card sticky top-24 p-6">
-            <h2 className="font-display text-xl text-ink-900">Summary</h2>
+            <h2 className="title-panel">Summary</h2>
             <div className="mt-4 space-y-2 text-sm text-ink-700">
               <div className="flex justify-between">
                 <span>Subtotal</span>
@@ -128,8 +128,8 @@ export default function CheckoutPage() {
               </div>
             </div>
             <div className="mt-4 flex justify-between border-t border-cream-200 pt-4">
-              <span className="font-display text-lg text-ink-900">Total</span>
-              <span className="font-display text-lg text-terracotta-600">
+              <span className="title-card">Total</span>
+              <span className="price-total">
                 {formatINR(cart.subtotal + shipping)}
               </span>
             </div>

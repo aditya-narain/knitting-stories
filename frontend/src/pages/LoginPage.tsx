@@ -33,8 +33,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col px-4 py-16">
-      <h1 className="text-center font-display text-4xl text-ink-900">Welcome back</h1>
+    <div className="page-auth">
+      <h1 className="title-page text-center">Welcome back</h1>
       <p className="mt-2 text-center text-ink-700/80">Sign in to your Knitting Stories account.</p>
 
       <form onSubmit={submit} className="card mt-8 p-7">
@@ -52,7 +52,7 @@ export default function LoginPage() {
             required
           />
         </div>
-        {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
+        {error && <p className="mb-4 alert-error">{error}</p>}
         <button className="btn-primary w-full" disabled={busy}>
           {busy ? "Signing in…" : "Sign in"}
         </button>

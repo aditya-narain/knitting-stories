@@ -40,27 +40,27 @@ export default function SellerOrdersPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <div className="page-mid">
       <SellerNav />
-      <h2 className="font-display text-2xl text-ink-900">Orders</h2>
-      {error && <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
+      <h2 className="title-sub">Orders</h2>
+      {error && <p className="mt-3 alert-error">{error}</p>}
 
       {loading ? (
-        <div className="flex justify-center py-20">
+        <div className="loader">
           <Spinner />
         </div>
       ) : orders.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-cream-200 py-20 text-center text-ink-700/70">
+        <div className="mt-8 empty-state">
           No orders yet.
         </div>
       ) : (
         <div className="mt-6 space-y-4">
           {orders.map((o) => (
-            <div key={o.id} className="card p-5">
+            <div key={o.id} className="panel">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="font-medium text-ink-900">Order #{o.orderNumber}</p>
-                  <p className="text-sm text-ink-700/70">
+                  <p className="muted">
                     {formatDate(o.placedAt ?? o.createdAt)} · {o.shipName}, {o.shipCity}
                   </p>
                 </div>

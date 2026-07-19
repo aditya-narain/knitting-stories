@@ -72,13 +72,13 @@ export default function HomePage() {
 
       {/* Categories */}
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <h2 className="font-display text-3xl text-ink-900">Shop by category</h2>
+        <h2 className="title-section">Shop by category</h2>
         <div className="mt-6 flex flex-wrap gap-3">
           {categories.map((c) => (
             <Link
               key={c.id}
               to={`/products?category=${c.slug}`}
-              className="rounded-full border border-cream-200 bg-white px-5 py-2.5 text-sm font-medium text-ink-800 shadow-sm transition-colors hover:border-terracotta-400 hover:text-terracotta-600"
+              className="chip"
             >
               {c.name}
             </Link>
@@ -89,7 +89,7 @@ export default function HomePage() {
       {/* Featured */}
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
         <div className="flex items-end justify-between">
-          <h2 className="font-display text-3xl text-ink-900">Featured pieces</h2>
+          <h2 className="title-section">Featured pieces</h2>
           <Link to="/products" className="text-sm font-medium text-terracotta-600 hover:underline">
             View all →
           </Link>
@@ -119,7 +119,7 @@ function Value({ title, text }: { title: string; text: string }) {
         </svg>
       </span>
       <div>
-        <h3 className="font-display text-lg text-ink-900">{title}</h3>
+        <h3 className="title-card">{title}</h3>
         <p className="text-sm text-ink-700/80">{text}</p>
       </div>
     </div>

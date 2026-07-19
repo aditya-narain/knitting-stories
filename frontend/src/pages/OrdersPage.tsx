@@ -19,17 +19,17 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="center-screen">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-4xl text-ink-900">My Orders</h1>
+    <div className="page-narrow">
+      <h1 className="title-page">My Orders</h1>
       {orders.length === 0 ? (
-        <div className="mt-10 rounded-2xl border border-dashed border-cream-200 py-20 text-center text-ink-700/70">
+        <div className="mt-10 empty-state">
           You haven't placed any orders yet.
           <div className="mt-4">
             <Link to="/products" className="btn-primary">
@@ -44,7 +44,7 @@ export default function OrdersPage() {
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="font-medium text-ink-900">Order #{o.orderNumber}</p>
-                  <p className="text-sm text-ink-700/70">Placed {formatDate(o.placedAt ?? o.createdAt)}</p>
+                  <p className="muted">Placed {formatDate(o.placedAt ?? o.createdAt)}</p>
                 </div>
                 <StatusBadge status={o.status} />
               </div>
@@ -60,8 +60,8 @@ export default function OrdersPage() {
                   ))}
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-ink-700/70">{statusLabel(o.status)}</p>
-                  <p className="font-display text-lg text-terracotta-600">{formatINR(o.total)}</p>
+                  <p className="muted">{statusLabel(o.status)}</p>
+                  <p className="price-total">{formatINR(o.total)}</p>
                 </div>
               </div>
             </Link>

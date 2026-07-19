@@ -24,13 +24,13 @@ export default function ProductCard({ product }: { product: ProductSummary }) {
       </div>
       <div className="p-4">
         {product.sellerShopName && (
-          <p className="mb-1 text-xs uppercase tracking-wide text-sage-600">{product.sellerShopName}</p>
+          <p className="mb-1 eyebrow">{product.sellerShopName}</p>
         )}
-        <h3 className="font-display text-lg leading-snug text-ink-900 line-clamp-2">{product.title}</h3>
+        <h3 className="title-card leading-snug line-clamp-2">{product.title}</h3>
         <div className="mt-2">
           <StarRating value={product.ratingAvg} count={product.ratingCount} size={14} />
         </div>
-        <p className="mt-3 font-medium text-terracotta-600">{formatINR(product.basePrice)}</p>
+        <p className="mt-3 price">{formatINR(product.basePrice)}</p>
       </div>
     </Link>
   );

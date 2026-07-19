@@ -50,9 +50,9 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <div className="page-wide">
       <div className="flex flex-col gap-2 border-b border-cream-200 pb-6">
-        <h1 className="font-display text-4xl text-ink-900">The Collection</h1>
+        <h1 className="title-page">The Collection</h1>
         <p className="text-ink-700/80">Handmade crochet, ready to bring home.</p>
       </div>
 
@@ -118,16 +118,16 @@ export default function ProductsPage() {
         {/* Grid */}
         <div className="flex-1">
           {loading ? (
-            <div className="flex justify-center py-24">
+            <div className="loader">
               <Spinner />
             </div>
           ) : !data || data.content.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-cream-200 py-24 text-center text-ink-700/70">
+            <div className="empty-state">
               No products found. Try a different search.
             </div>
           ) : (
             <>
-              <p className="mb-4 text-sm text-ink-700/70">{data.totalElements} products</p>
+              <p className="mb-4 muted">{data.totalElements} products</p>
               <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
                 {data.content.map((p) => (
                   <ProductCard key={p.id} product={p} />

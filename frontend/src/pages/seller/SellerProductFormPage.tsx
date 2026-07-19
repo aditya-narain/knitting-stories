@@ -109,19 +109,19 @@ export default function SellerProductFormPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
+      <div className="center-screen">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <div className="page-slim">
       <SellerNav />
-      <h2 className="font-display text-2xl text-ink-900">{editing ? "Edit product" : "New product"}</h2>
+      <h2 className="title-sub">{editing ? "Edit product" : "New product"}</h2>
 
       <form onSubmit={submit} className="mt-6 space-y-6">
-        <div className="card space-y-4 p-6">
+        <div className="panel-lg space-y-4">
           <div>
             <label className="label">Title</label>
             <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -166,9 +166,9 @@ export default function SellerProductFormPage() {
           </div>
         </div>
 
-        <div className="card p-6">
+        <div className="panel-lg">
           <div className="flex items-center justify-between">
-            <h3 className="font-display text-lg text-ink-900">Variants</h3>
+            <h3 className="title-card">Variants</h3>
             <button type="button" className="btn-ghost text-sm" onClick={() => setVariants((v) => [...v, { ...emptyVariant }])}>
               + Add variant
             </button>
@@ -198,7 +198,7 @@ export default function SellerProductFormPage() {
           </div>
         </div>
 
-        {error && <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
+        {error && <p className="alert-error">{error}</p>}
 
         <div className="flex gap-3">
           <button className="btn-primary" disabled={busy}>

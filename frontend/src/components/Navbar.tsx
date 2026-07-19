@@ -14,8 +14,8 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2.5">
           <img src="/favicon.svg" alt="" className="h-9 w-9" />
           <div className="leading-tight">
-            <span className="block font-display text-xl text-ink-900">Knitting Stories</span>
-            <span className="block text-[10px] uppercase tracking-[0.2em] text-sage-600">
+            <span className="block title-panel">Knitting Stories</span>
+            <span className="block eyebrow text-[10px] tracking-[0.2em]">
               Handmade Crochet
             </span>
           </div>
@@ -41,7 +41,7 @@ export default function Navbar() {
           {isAuthenticated ? (
             <div className="flex items-center gap-2">
               {!isSeller && (
-                <Link to="/orders" className="hidden text-sm text-ink-700 hover:text-terracotta-600 sm:block">
+                <Link to="/orders" className="hidden nav-link text-ink-700 hover:text-terracotta-600 sm:block">
                   My Orders
                 </Link>
               )}
@@ -83,7 +83,7 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
       to={to}
       end={to === "/"}
       className={({ isActive }) =>
-        `text-sm font-medium transition-colors ${
+        `nav-link ${
           isActive ? "text-terracotta-600" : "text-ink-700 hover:text-terracotta-600"
         }`
       }

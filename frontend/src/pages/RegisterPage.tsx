@@ -37,8 +37,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col px-4 py-16">
-      <h1 className="text-center font-display text-4xl text-ink-900">Join Knitting Stories</h1>
+    <div className="page-auth">
+      <h1 className="title-page text-center">Join Knitting Stories</h1>
       <p className="mt-2 text-center text-ink-700/80">Shop handmade, or sell your own creations.</p>
 
       <div className="mt-6 grid grid-cols-2 gap-2 rounded-full bg-cream-200 p-1">
@@ -93,7 +93,7 @@ export default function RegisterPage() {
           />
           <p className="mt-1 text-xs text-ink-700/60">At least 8 characters.</p>
         </div>
-        {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
+        {error && <p className="mb-4 alert-error">{error}</p>}
         <button className="btn-primary w-full" disabled={busy}>
           {busy ? "Creating account…" : "Create account"}
         </button>

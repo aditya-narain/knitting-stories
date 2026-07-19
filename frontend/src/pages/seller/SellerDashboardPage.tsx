@@ -18,10 +18,10 @@ export default function SellerDashboardPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="page">
       <SellerNav />
       {loading || !data ? (
-        <div className="flex justify-center py-20">
+        <div className="loader">
           <Spinner />
         </div>
       ) : (
@@ -34,10 +34,10 @@ export default function SellerDashboardPage() {
           </div>
 
           <div className="mt-4 grid gap-4 lg:grid-cols-3">
-            <div className="card p-6 lg:col-span-2">
-              <h2 className="font-display text-xl text-ink-900">Top products</h2>
+            <div className="panel-lg lg:col-span-2">
+              <h2 className="title-panel">Top products</h2>
               {data.topProducts.length === 0 ? (
-                <p className="mt-4 text-sm text-ink-700/70">No sales yet.</p>
+                <p className="mt-4 muted">No sales yet.</p>
               ) : (
                 <table className="mt-4 w-full text-sm">
                   <thead>
@@ -62,7 +62,7 @@ export default function SellerDashboardPage() {
 
             <div className="card flex flex-col gap-4 p-6">
               <div>
-                <p className="text-sm text-ink-700/70">Orders awaiting fulfilment</p>
+                <p className="muted">Orders awaiting fulfilment</p>
                 <p className="mt-1 font-display text-4xl text-terracotta-600">{data.pendingFulfilment}</p>
               </div>
               <Link to="/seller/orders" className="btn-outline">
@@ -81,7 +81,7 @@ export default function SellerDashboardPage() {
 
 function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div className={`card p-6 ${accent ? "bg-terracotta-500 text-cream-50" : ""}`}>
+    <div className={`panel-lg ${accent ? "bg-terracotta-500 text-cream-50" : ""}`}>
       <p className={`text-sm ${accent ? "text-cream-100" : "text-ink-700/70"}`}>{label}</p>
       <p className="mt-1 font-display text-3xl">{value}</p>
     </div>
