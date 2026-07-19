@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream-100 text-ink-800 font-sans antialiased;
+  }
+  h1, h2, h3 {
+    @apply font-display;
+  }
+}
+
+/*
+ * Design system.
+ * All shared visual styling lives here as named classes so components stay
+ * markup-only and the look of the app can be tuned from a single file.
+ * Components should compose these classes and keep only one-off layout
+ * utilities inline.
+ */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-terracotta-500 text-cream-50 hover:bg-terracotta-600 shadow-card;
+  }
+  .btn-outline {
+    @apply btn border border-terracotta-500 text-terracotta-600 hover:bg-terracotta-50;
+  }
+  .btn-ghost {
+    @apply btn text-ink-700 hover:bg-cream-200;
+  }
+
+  /* Form controls */
+  .input {
+    @apply w-full rounded-xl border border-cream-200 bg-white px-4 py-2.5 text-sm text-ink-800 shadow-sm focus:border-terracotta-400 focus:outline-none focus:ring-2 focus:ring-terracotta-100;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink-700;
+  }
+
+  /* Surfaces */
+  .card {
+    @apply rounded-2xl bg-white shadow-card;
+  }
+  .panel {
+    @apply card p-5;
+  }
+  .panel-lg {
+    @apply card p-6;
+  }
+  .empty-state {
+    @apply rounded-2xl border border-dashed border-cream-200 py-20 text-center text-ink-700/70;
+  }
+
+  /* Page containers */
+  .page {
+    @apply mx-auto max-w-6xl px-4 py-10 sm:px-6;
+  }
+  .page-wide {
+    @apply mx-auto max-w-7xl px-4 py-10 sm:px-6;
+  }
+  .page-mid {
+    @apply mx-auto max-w-5xl px-4 py-10 sm:px-6;
+  }
+  .page-narrow {
+    @apply mx-auto max-w-4xl px-4 py-10 sm:px-6;
+  }
+  .page-slim {
+    @apply mx-auto max-w-3xl px-4 py-10 sm:px-6;
+  }
+  .page-auth {
+    @apply mx-auto flex max-w-md flex-col px-4 py-16;
+  }
+  .center-screen {
+    @apply flex min-h-[50vh] items-center justify-center;
+  }
+  .page-message {
+    @apply mx-auto max-w-3xl px-4 py-20 text-center text-ink-700;
+  }
+  .loader {
+    @apply flex justify-center py-20;
+  }
+
+  /* Headings (font-display, ink) */
+  .title-page {
+    @apply font-display text-4xl text-ink-900;
+  }
+  .title-section {
+    @apply font-display text-3xl text-ink-900;
+  }
+  .title-sub {
+    @apply font-display text-2xl text-ink-900;
+  }
+  .title-panel {
+    @apply font-display text-xl text-ink-900;
+  }
+  .title-card {
+    @apply font-display text-lg text-ink-900;
+  }
+
+  /* Text accents */
+  .eyebrow {
+    @apply text-xs uppercase tracking-wide text-sage-600;
+  }
+  .muted {
+    @apply text-sm text-ink-700/70;
+  }
+  .price {
+    @apply font-medium text-terracotta-600;
+  }
+  .price-lg {
+    @apply font-display text-3xl text-terracotta-600;
+  }
+  .price-total {
+    @apply font-display text-lg text-terracotta-600;
+  }
+
+  /* Badges / pills / chips */
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+  }
+  .pill {
+    @apply inline-flex items-center rounded-full bg-cream-200 px-2.5 py-1 text-xs text-ink-700;
+  }
+  .chip {
+    @apply rounded-full border border-cream-200 bg-white px-5 py-2.5 text-sm font-medium text-ink-800 shadow-sm transition-colors hover:border-terracotta-400 hover:text-terracotta-600;
+  }
+
+  /* Feedback */
+  .alert {
+    @apply rounded-lg px-4 py-2 text-sm;
+  }
+  .alert-error {
+    @apply alert bg-red-50 text-red-700;
+  }
+
+  /* Navigation */
+  .nav-link {
+    @apply text-sm font-medium transition-colors;
+  }
+  .tab {
+    @apply -mb-px border-b-2 px-4 py-2.5 text-sm font-medium transition-colors;
+  }
+
+  /* Quantity stepper */
+  .qty-control {
+    @apply flex items-center rounded-full border border-cream-200 bg-white;
+  }
+  .qty-btn {
+    @apply px-4 py-2 text-lg text-ink-700;
+  }
+}
