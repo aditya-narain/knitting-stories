@@ -22,7 +22,7 @@ ship → deliver), and a sales analytics dashboard.
 ## Prerequisites
 
 - Java 21 (`JAVA_HOME` pointing at a JDK 21)
-- Maven (or use the bundled `./mvnw` wrapper)
+- Maven 3.9+
 - Node.js **≥ 20.19** (Node 22 recommended — see `frontend/.nvmrc`)
 - Docker (for local PostgreSQL, or use the full `docker-compose`)
 
@@ -45,7 +45,7 @@ categories, products, a seller, and a customer.
 
 ```bash
 cd backend
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 Health check: `http://localhost:8080/actuator/health` · API docs (Swagger UI):
@@ -84,8 +84,8 @@ docker compose up --build
 ```bash
 # Backend
 cd backend
-./mvnw clean test        # run tests
-./mvnw clean package     # build the jar
+mvn clean test        # run tests
+mvn clean package     # build the jar
 
 # Frontend
 cd frontend
