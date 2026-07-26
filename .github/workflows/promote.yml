@@ -1,0 +1,32 @@
+name: Promote
+
+# Deploys an image that dev already built and you already tested. Nothing is
+# rebuilt, so staging and prod run the exact bytes that passed UAT.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Full commit SHA that was deployed to dev.
+        type: string
+        required: true
+      target:
+        description: Environment to promote to.
+        type: choice
+        options: [staging, production]
+        required: true
+
+concurrency:
+  group: promote-${{ inputs.target }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  promote:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: ${{ inputs.target }}
+      ref: ${{ inputs.commit_sha }}
+      build: false

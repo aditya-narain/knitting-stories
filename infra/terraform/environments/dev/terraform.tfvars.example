@@ -1,0 +1,9 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is git-ignored.
+
+project_id      = "ks-dev-a1b2"
+billing_account = "0X0X0X-0X0X0X-0X0X0X"
+
+# From the Neon project "ks-dev" — use the pooled host (contains "-pooler").
+database_url      = "jdbc:postgresql://ep-xxx-pooler.ap-southeast-1.aws.neon.tech/knitting_stories?sslmode=require"
+database_username = "ks_dev"
+database_password = "..."

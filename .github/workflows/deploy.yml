@@ -1,0 +1,109 @@
+name: Deploy
+
+# Reusable deploy used by deploy-dev.yml and promote.yml. Every environment goes
+# through this one path so dev, staging and prod cannot drift apart.
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: GitHub Environment to deploy to (dev, staging, production).
+        type: string
+        required: true
+      ref:
+        description: Commit SHA to deploy. Also the container image tag.
+        type: string
+        required: true
+      build:
+        description: Build and push the image. False promotes the image already in the registry.
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.DEPLOYER_SA }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Resolve image
+        id: image
+        run: echo "uri=${{ vars.ARTIFACT_REPO }}/api:${{ inputs.ref }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push API image
+        if: inputs.build
+        run: |
+          gcloud auth configure-docker "${{ vars.GCP_REGION }}-docker.pkg.dev" --quiet
+          docker build -t "${{ steps.image.outputs.uri }}" backend
+          docker push "${{ steps.image.outputs.uri }}"
+
+      # Promotions must deploy an artifact that already exists rather than
+      # silently rebuilding something that was never tested.
+      - name: Verify image exists
+        if: ${{ !inputs.build }}
+        run: gcloud artifacts docker images describe "${{ steps.image.outputs.uri }}"
+
+      - name: Deploy API
+        id: api
+        run: |
+          gcloud run deploy "${{ vars.API_SERVICE }}" \
+            --image "${{ steps.image.outputs.uri }}" \
+            --project "${{ vars.GCP_PROJECT_ID }}" \
+            --region "${{ vars.GCP_REGION }}" \
+            --quiet
+          url=$(gcloud run services describe "${{ vars.API_SERVICE }}" \
+            --project "${{ vars.GCP_PROJECT_ID }}" \
+            --region "${{ vars.GCP_REGION }}" \
+            --format 'value(status.url)')
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Check API health
+        run: curl -fsS --retry 5 --retry-all-errors --retry-delay 10 "${{ steps.api.outputs.url }}/actuator/health"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: frontend/.nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # The API URL is baked in at build time, so the SPA is rebuilt per
+      # environment from the same commit the promoted image was built from.
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          VITE_API_BASE_URL: ${{ steps.api.outputs.url }}/api
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy frontend
+        working-directory: frontend
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+        run: npx --yes firebase-tools@13 deploy --only hosting --project "${{ vars.GCP_PROJECT_ID }}" --non-interactive
+
+      - name: Summary
+        run: |
+          {
+            echo "### Deployed to ${{ inputs.environment }}"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Commit | \`${{ inputs.ref }}\` |"
+            echo "| Image | \`${{ steps.image.outputs.uri }}\` |"
+            echo "| API | ${{ steps.api.outputs.url }} |"
+            echo "| Frontend | https://${{ vars.GCP_PROJECT_ID }}.web.app |"
+          } >> "$GITHUB_STEP_SUMMARY"

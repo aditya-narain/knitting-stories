@@ -6,7 +6,7 @@ products. Customer + Seller portals (Admin deferred).
 - **Backend:** Java 21, Spring Boot 3.4 (Maven), Spring Security + JWT, Spring Data JPA, Flyway, PostgreSQL
 - **Frontend:** React + TypeScript + Vite + Tailwind CSS
 - **Payments:** Razorpay (INR) — falls back to a mock flow locally when no keys are set
-- **Deploy target:** Google Cloud Run + serverless PostgreSQL (Neon/Supabase)
+- **Deploy target:** Google Cloud Run + Firebase Hosting + serverless PostgreSQL (Neon)
 
 See [`PLAN.md`](./PLAN.md) for the full architecture and roadmap.
 
@@ -104,6 +104,7 @@ Backend (see `backend/.env.example`):
 | `JWT_SECRET` | dev fallback | **Set a long random value in production** |
 | `JWT_EXPIRATION_MS` | `86400000` | 24h |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:5173` | comma-separated |
+| `SEED_DEMO_DATA` | `true` | demo catalog + demo accounts; forced off when deployed |
 | `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` | empty | empty ⇒ **mock payments** |
 | `PORT` | `8080` | Cloud Run injects this |
 
@@ -111,34 +112,17 @@ Backend (see `backend/.env.example`):
 > so you can exercise the full order lifecycle locally. Set real keys to enable
 > live Razorpay checkout and server-side signature verification.
 
-## Deploy to Cloud Run (low-cost)
+## Deploy
 
-1. **Database:** create a free serverless Postgres (Neon or Supabase); copy the
-   JDBC URL / user / password.
-2. **Secrets:** store `JWT_SECRET`, `DATABASE_*`, and `RAZORPAY_*` in
-   **Secret Manager**.
-3. **Build & push images** (Artifact Registry):
-   ```bash
-   gcloud builds submit backend  --tag REGION-docker.pkg.dev/PROJECT/ks/backend
-   gcloud builds submit frontend --tag REGION-docker.pkg.dev/PROJECT/ks/frontend
-   ```
-4. **Deploy backend:**
-   ```bash
-   gcloud run deploy ks-backend \
-     --image REGION-docker.pkg.dev/PROJECT/ks/backend \
-     --region REGION --allow-unauthenticated \
-     --set-secrets DATABASE_URL=DATABASE_URL:latest,DATABASE_USERNAME=DB_USER:latest,DATABASE_PASSWORD=DB_PASS:latest,JWT_SECRET=JWT_SECRET:latest,RAZORPAY_KEY_ID=RZP_ID:latest,RAZORPAY_KEY_SECRET=RZP_SECRET:latest \
-     --set-env-vars CORS_ALLOWED_ORIGINS=https://YOUR_FRONTEND_URL
-   ```
-5. **Deploy frontend** (point it at the backend URL):
-   ```bash
-   gcloud run deploy ks-frontend \
-     --image REGION-docker.pkg.dev/PROJECT/ks/frontend \
-     --region REGION --allow-unauthenticated \
-     --set-env-vars BACKEND_URL=https://YOUR_BACKEND_URL
-   ```
+Three environments (dev, staging, prod), each its own Google Cloud project, all
+inside free tiers and with no domain required: Cloud Run in Mumbai for the API,
+Firebase Hosting for the frontend, Neon for Postgres. Infrastructure is
+Terraform and deploys are GitHub Actions with no service-account keys.
 
-Both services scale to zero, so idle cost is ~₹0. Product images currently ship
+See **[`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md)** for the runbook and
+[`infra/terraform/`](./infra/terraform) for the code.
+
+Everything scales to zero, so idle cost is ~₹0. Product images currently ship
 as bundled SVG placeholders; move real uploads to **Google Cloud Storage** when
 ready.
 
@@ -147,5 +131,7 @@ ready.
 ```
 backend/    Spring Boot API (Maven)
 frontend/   React + Vite storefront and seller studio
+infra/      Terraform for the dev / staging / prod projects
+docs/       Deployment runbook
 PLAN.md     Architecture & roadmap
 ```

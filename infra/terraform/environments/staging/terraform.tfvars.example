@@ -1,0 +1,12 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is git-ignored.
+
+project_id      = "ks-staging-a1b2"
+billing_account = "0X0X0X-0X0X0X-0X0X0X"
+
+# The dev project ID — staging pulls the image dev already built.
+artifact_registry_project = "ks-dev-a1b2"
+
+# From the Neon project "ks-staging" — use the pooled host (contains "-pooler").
+database_url      = "jdbc:postgresql://ep-xxx-pooler.ap-southeast-1.aws.neon.tech/knitting_stories?sslmode=require"
+database_username = "ks_staging"
+database_password = "..."

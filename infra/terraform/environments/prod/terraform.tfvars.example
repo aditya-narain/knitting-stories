@@ -1,0 +1,19 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is git-ignored.
+
+project_id      = "ks-prod-a1b2"
+billing_account = "0X0X0X-0X0X0X-0X0X0X"
+
+# The dev project ID — prod deploys the image that passed staging UAT.
+artifact_registry_project = "ks-dev-a1b2"
+
+# From the Neon project "ks-prod" — use the pooled host (contains "-pooler").
+database_url      = "jdbc:postgresql://ep-xxx-pooler.ap-southeast-1.aws.neon.tech/knitting_stories?sslmode=require"
+database_username = "ks_prod"
+database_password = "..."
+
+# Removes cold starts once you are ready to spend ~$8-10/month.
+# min_instances = 1
+
+# Live payments need a registered Indian business entity and Razorpay KYC.
+# razorpay_key_id     = "rzp_live_..."
+# razorpay_key_secret = "..."

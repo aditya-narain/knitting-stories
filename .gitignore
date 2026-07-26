@@ -11,3 +11,16 @@
 
 # Logs
 *.log
+
+# Terraform — state holds secrets, tfvars hold credentials
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+
+# Firebase
+.firebaserc
+.firebase/
