@@ -1,0 +1,21 @@
+# Profile for deployed environments (Cloud Run + Neon). Activated by
+# SPRING_PROFILES_ACTIVE=cloud, which Terraform sets on the Cloud Run service.
+spring:
+  datasource:
+    hikari:
+      # Every Cloud Run instance keeps its own pool, so the ceiling is
+      # maximum-pool-size x max-instances. Neon suspends idle computes, hence
+      # the short lifetimes rather than long-lived connections.
+      maximum-pool-size: ${DB_POOL_MAX:5}
+      minimum-idle: 0
+      idle-timeout: 60000
+      max-lifetime: 300000
+      connection-timeout: 20000
+
+server:
+  shutdown: graceful
+
+app:
+  # Demo accounts ship with a published password, so never seed a deployed
+  # environment.
+  seed-demo-data: false

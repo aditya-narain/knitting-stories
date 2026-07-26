@@ -14,6 +14,7 @@ import com.knittingstories.user.UserStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,10 +27,12 @@ import java.util.Map;
 /**
  * Seeds demo data (categories, a seller, a customer and a catalog of crochet
  * products) on first startup so the storefront is populated out of the box.
- * Disabled under the "test" profile.
+ * Disabled under the "test" profile and wherever app.seed-demo-data is false,
+ * which includes every deployed environment.
  */
 @Component
 @Profile("!test")
+@ConditionalOnProperty(name = "app.seed-demo-data", havingValue = "true", matchIfMissing = true)
 public class DataSeeder implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
